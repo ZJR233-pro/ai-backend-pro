@@ -7,8 +7,8 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 // ==================== 👇👇👇 必须换成你自己的 👇👇👇 ====================
-const SUPABASE_URL = "这里粘贴你的Supabase Project URL";
-const SUPABASE_SERVICE_KEY = "这里粘贴你的Supabase service_role secret";
+const SUPABASE_URL = "https://zhygzuozfomauvqzqjig.supabase.co";
+const SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoeWd6dW96Zm9tYXV2cXpxamlnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzY4MTIyNiwiZXhwIjoyMDg5MjU3MjI2fQ.OCQzIzrijv19YxLY_K1Hm6Qi1r32hg-87W2BOKdX8K8";
 // ==================== 👆👆👆 只改上面这两行 👆👆👆 ====================
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
