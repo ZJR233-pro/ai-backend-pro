@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
+import serverless from 'serverless-http';
 
 const app = express();
 app.use(cors({ origin: "*" }));
@@ -13,7 +14,7 @@ const SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-// 最强视频库（1080P高清+流畅+带声音）
+// 高清视频库（带声音，可直接用）
 const PRO_VIDEO_LIBRARY = [
   {
     url: "https://sample-videos.com/video123/mp4/1080/big_buck_bunny_1080p_1mb.mp4",
@@ -32,12 +33,12 @@ const PRO_VIDEO_LIBRARY = [
 // 对口型专用视频
 const LIPSYNC_VIDEO = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4";
 
-// 健康检查
+// 健康检查（测试后端是否正常）
 app.get('/api/health', (req, res) => {
   res.json({ status: "ok", message: "最强版后端运行正常" });
 });
 
-// 1. 图片生成
+// 1. 图片生成接口
 app.post('/api/generate-image', async (req, res) => {
   try {
     const { prompt, userId } = req.body;
@@ -72,7 +73,7 @@ app.post('/api/generate-image', async (req, res) => {
   }
 });
 
-// 2. 最强视频生成（1080P+带声音）
+// 2. 视频生成接口（带配音）
 app.post('/api/generate-video', async (req, res) => {
   try {
     const { prompt, userId, voiceType = "professional" } = req.body;
@@ -109,7 +110,7 @@ app.post('/api/generate-video', async (req, res) => {
   }
 });
 
-// 3. 对口型生成（图片说话）
+// 3. 对口型生成接口
 app.post('/api/generate-lipsync', async (req, res) => {
   try {
     const { image_url, text, userId, voiceType = "professional" } = req.body;
@@ -144,7 +145,5 @@ app.post('/api/generate-lipsync', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`最强版后端已启动，端口: ${PORT}`);
-});
+// 腾讯云云函数适配：导出入口
+export const handler = serverless(app);
